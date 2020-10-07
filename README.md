@@ -7,7 +7,7 @@ This is the [ci-friendly-maven-plugin](https://github.com/outbrain/ci-friendly-m
 
 
 ## Quickstart
-This plugin generates a flattened version of your pom.xml and makes maven to install and deploy this one instead of the original pom.xml.
+This plugin generates a ci-friendly version of your pom.xml and makes maven to install and deploy this one instead of the original pom.xml.
 ```
    <build>
         <plugins>
