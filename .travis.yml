@@ -12,9 +12,6 @@ jdk:
 env:
   - MAVEN_VERSION=3.6.3
 
-script:
-  - "./mvnw clean install"
-
 cache:
   directories:
     - $HOME/.m2
