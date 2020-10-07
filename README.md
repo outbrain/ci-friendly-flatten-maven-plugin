@@ -1,4 +1,4 @@
-# ci-friendly-plugin 
+# ci-friendly-maven-plugin 
 
 This is the [ci-friendly-maven-plugin](https://github.com/outbrain/ci-friendly-maven-plugin).
 
