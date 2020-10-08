@@ -4,7 +4,7 @@
 
   <artifactId>ci-friendly-maven-plugin</artifactId>
   <groupId>com.outbrain.swinfra</groupId>
-  <version>${revision}</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Ci Friendly Maven Plugin</name>
@@ -72,7 +72,6 @@
     <maven-source-plugin.version.a>2.2.1</maven-source-plugin.version.a>
     <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
     <maven-scm.version>1.11.2</maven-scm.version>
-    <revision>1.0.0-SNAPSHOT</revision>
   </properties>
 
   <dependencies>
