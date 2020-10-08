@@ -4,13 +4,13 @@
 
   <artifactId>ci-friendly-maven-plugin</artifactId>
   <groupId>com.outbrain.swinfra</groupId>
-  <version>1.0-SNAPSHOT</version>
+  <version>${revision}</version>
   <packaging>pom</packaging>
 
   <name>Ci Friendly Maven Plugin</name>
 
-  <url>http://www.outbrain.com</url>
-  <description>Plugin to generate ci-friendly POM (replace all revision property to the required version) instead of original pom.xml.</description>
+  <url>https://github.com/outbrain/ci-friendly-maven-plugin</url>
+  <description>Plugin helps to us CI friendly versions in maven projects https://maven.apache.org/maven-ci-friendly.html replacing the flatten-maven-plugin</description>
 
   <licenses>
     <license>
@@ -72,6 +72,7 @@
     <maven-source-plugin.version.a>2.2.1</maven-source-plugin.version.a>
     <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
     <maven-scm.version>1.11.2</maven-scm.version>
+    <revision>1.0.0-SNAPSHOT</revision>
   </properties>
 
   <dependencies>
