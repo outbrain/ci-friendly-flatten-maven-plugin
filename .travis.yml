@@ -7,7 +7,6 @@ dist: trusty
 
 jdk:
   - openjdk8
-  - openjdk11
 
 env:
   - MAVEN_VERSION=3.6.3
