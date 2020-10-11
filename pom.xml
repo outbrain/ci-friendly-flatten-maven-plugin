@@ -4,10 +4,10 @@
 
   <artifactId>ci-friendly-flatten-maven-plugin</artifactId>
   <groupId>com.outbrain.swinfra</groupId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.4-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
-  <name>Ci Friendly Maven Plugin</name>
+  <name>Ci Friendly Flatten Maven Plugin</name>
 
   <url>https://github.com/outbrain/ci-friendly-flatten-maven-plugin</url>
   <description>Plugin helps to use CI friendly versions in maven projects https://maven.apache.org/maven-ci-friendly.html replacing the flatten-maven-plugin</description>
