@@ -13,7 +13,7 @@ This plugin generates a ci-friendly pom by replacing all ${revision} to relevant
         <plugins>
           <plugin>
             <groupId>com.outbrain.swinfra</groupId>
-            <artifactId>ci-friendly-maven-plugin</artifactId>
+            <artifactId>ci-friendly-flatten-maven-plugin</artifactId>
             <!--<version>INSERT LATEST VERSION HERE</version>-->
             <configuration>
               <!-- Additional configurations -->
