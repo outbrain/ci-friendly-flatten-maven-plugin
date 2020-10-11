@@ -10,7 +10,7 @@
   <name>Ci Friendly Flatten Maven Plugin</name>
 
   <url>https://github.com/outbrain/ci-friendly-flatten-maven-plugin</url>
-  <description>Plugin helps to use CI friendly versions in maven projects https://maven.apache.org/maven-ci-friendly.html replacing the flatten-maven-plugin</description>
+  <description>Plugin helps to use CI friendly versions in maven projects by simplifying the flatten-maven-plugin</description>
 
   <licenses>
     <license>
