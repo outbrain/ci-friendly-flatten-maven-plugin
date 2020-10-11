@@ -1,4 +1,4 @@
-package com.outbrain.ci.friendly.maven.plugin;
+package com.outbrain.ci.friendly.flatten.maven.plugin;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

@@ -1,4 +1,4 @@
-package com.outbrain.ci.friendly.maven.plugin;
+package com.outbrain.ci.friendly.flatten.maven.plugin;
 
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;

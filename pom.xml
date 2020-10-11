@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>ci-friendly-maven-plugin</artifactId>
+  <artifactId>ci-friendly-flatten-maven-plugin</artifactId>
   <groupId>com.outbrain.swinfra</groupId>
   <version>1.0.2-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Ci Friendly Maven Plugin</name>
 
-  <url>https://github.com/outbrain/ci-friendly-maven-plugin</url>
+  <url>https://github.com/outbrain/ci-friendly-flatten-maven-plugin</url>
   <description>Plugin helps to use CI friendly versions in maven projects https://maven.apache.org/maven-ci-friendly.html replacing the flatten-maven-plugin</description>
 
   <licenses>
@@ -20,9 +20,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:https://github.com/outbrain/ci-friendly-maven-plugin.git</connection>
-    <developerConnection>scm:git:https://github.com/outbrain/ci-friendly-maven-plugin.git</developerConnection>
-    <url>https://github.com/outbrain/ci-friendly-maven-plugin</url>
+    <connection>scm:git:https://github.com/outbrain/ci-friendly-flatten-maven-plugin.git</connection>
+    <developerConnection>scm:git:https://github.com/outbrain/ci-friendly-flatten-maven-plugin.git</developerConnection>
+    <url>https://github.com/outbrain/ci-friendly-flatten-maven-plugin</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -32,7 +32,7 @@
       <email>aviy.vai@gmail.com</email>
       <organization>Outbrain</organization>
       <organizationUrl>http://www.outbrain.com</organizationUrl>
-      <url>https://linkedin.com/in/avi-youkhananov-6b16b128</url>
+      <url>https://www.linkedin.com/in/avi-youkhananov/</url>
     </developer>
   </developers>
 
