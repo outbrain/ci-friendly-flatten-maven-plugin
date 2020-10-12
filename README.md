@@ -27,7 +27,7 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
  mvn -Drevision=2.0.0 clean package
 
  2.If you like to make a release with another version:
-   mvn -Drevision=2.0.0 -Dchangelist=[FILL_ME] -Dsha1=[FILL_ME]
+   mvn -Drevision=2.0.0 -Dchangelist=[FILL_ME] -Dsha1=[FILL_ME] clean package
    
  writing the resulting pom to a file named `.ci-friendly-pom.xml` and instructing maven to use it.
 ```
