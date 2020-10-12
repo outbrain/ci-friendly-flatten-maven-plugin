@@ -6,8 +6,24 @@ This is the [ci-friendly-flatten-maven-plugin](https://github.com/outbrain/ci-fr
 [![Build Status](https://travis-ci.org/outbrain/ci-friendly-flatten-maven-plugin.svg?branch=main)](https://travis-ci.org/github/outbrain/ci-friendly-flatten-maven-plugin)
 [![Maven Central](https://img.shields.io/maven-central/v/com.outbrain.swinfra/ci-friendly-flatten-maven-plugin.svg?label=Maven%20Central)](http://search.maven.org/#search%7Cga%7C1%7Cci-friendly-flatten-maven-plugin)
 
+## Why another flatten plugin?
+Having a large (> 350 modules) reactor with multiple daily releases,
+we encountered two issues:
+1) Commit history littered with maven release plugin commits.
+2) Race between committers pushing to the main branch, and the release plugin pushing its own pom changes.
+
+When we found out about [ci friendly versions](https://maven.apache.org/maven-ci-friendly.html), we were ecstatic - finally we can avoid having
+versions in poms and achieve zero commits release process!
+
+The only problem was that the [flatten plugin](https://www.mojohaus.org/flatten-maven-plugin) coupled with the `resolveCiFriendliesOnly`
+option [does not work](https://github.com/mojohaus/flatten-maven-plugin/issues/51#issuecomment-566069689).
+As adherers of the [unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy#:~:text=The%20Unix%20philosophy%20emphasizes%20building,as%20opposed%20to%20monolithic%20design.),
+we decided to create a plugin that truly, really, only replaces the `revision`, `sha` and `changelist` properties. 
+
 ## Quickstart
-This plugin generates a ci-friendly pom by replacing all ${revision} to relevant version of your pom.xml and makes maven to install and deploy this one instead of the original pom.xml.
+This plugin flattens a pom by replacing `${revision}`, `${sha}`, `${changelist}` to 
+ values you set (how do you set them?), writing the resulting pom to a file named `.ci-friendly-pom.xml`
+ and instructing maven to use it.
 ```
    <build>
         <plugins>
