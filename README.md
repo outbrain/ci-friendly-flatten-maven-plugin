@@ -23,11 +23,14 @@ we decided to create a plugin that truly, really, only replaces the `revision`, 
 ## Quickstart
 This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}` to 
  values you set by passing them as args e.g.:
- 1.If you like to make a version 2.0.0 this can simply being achieved by using this:
- mvn -Drevision=2.0.0 clean package
-
- 2.If you like to make a release with another version:
-   mvn -Drevision=2.0.0 -Dchangelist=[FILL_ME] -Dsha1=[FILL_ME] clean package
+ 
+ 1. If you like to make a version 2.0.0 this can simply being achieved by using this:
+ 
+ ```mvn -Drevision=2.0.0 clean package```
+ 
+ 2. If you like to make a release with another version:
+ 
+ ```mvn -Drevision=2.0.0 -Dchangelist=[FILL_ME] -Dsha1=[FILL_ME] clean package```
    
  writing the resulting pom to a file named `.ci-friendly-pom.xml` and instructing maven to use it.
 ```
