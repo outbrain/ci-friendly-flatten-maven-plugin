@@ -17,6 +17,7 @@ script:
 cache:
   directories:
     - $HOME/.m2
+
 notifications:
   email:
     - aviy.vai@gmail.com
