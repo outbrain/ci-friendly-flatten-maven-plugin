@@ -37,13 +37,19 @@ public class CiFriendlyMojo extends AbstractCiFriendlyMojo {
   @Parameter(property = "tagPrefix", defaultValue = "")
   private String tagPrefix;
 
+  @Parameter(property = "sha1")
+  private String sha1;
+
+  @Parameter(property = "changelist")
+  private String changeList;
+
   /**
    * {@inheritDoc}
    */
   public void execute() throws MojoExecutionException {
     final String originalPom = readPom();
     final String revision = getRevision();
-    final String modifiedPom = replacePlaceHolders(originalPom, revision);
+    final String modifiedPom = replacePlaceHolders(originalPom, revision, sha1, changeList);
     if (originalPom.equals(modifiedPom)) {
       getLog().info("POM is not CI friendly");
     } else {
@@ -66,8 +72,12 @@ public class CiFriendlyMojo extends AbstractCiFriendlyMojo {
     return flattenedPomFile;
   }
 
-  private String replacePlaceHolders(final String originalPom, final String revision) {
-    return originalPom.replace("${revision}", revision).replace("${tagPrefix}", tagPrefix);
+  private String replacePlaceHolders(final String originalPom, final String revision, String sha1, String changeList) {
+
+    return originalPom.replace("${revision}", revision)
+        .replace("${tagPrefix}", tagPrefix != null ? tagPrefix : "")
+        .replace("${sha1}", sha1 != null ? sha1 : "")
+        .replace("${changelist}", changeList != null ? changeList : "");
   }
 
   private String readPom() throws MojoExecutionException {
@@ -82,7 +92,7 @@ public class CiFriendlyMojo extends AbstractCiFriendlyMojo {
   }
 
   private String getRevision() {
-    if(this.project.getProperties().containsKey("internal.revision")){
+    if (this.project.getProperties().containsKey("internal.revision")) {
       return this.project.getProperties().getProperty("internal.revision");
     }
     final Properties systemProperties = this.session.getSystemProperties();
