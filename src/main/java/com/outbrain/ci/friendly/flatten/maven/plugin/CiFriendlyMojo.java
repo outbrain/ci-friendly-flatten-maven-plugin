@@ -19,7 +19,7 @@ import java.util.Properties;
 @SuppressWarnings("deprecation")
 // CHECKSTYLE_OFF: LineLength
 @Mojo(name = "ci-friendly", requiresProject = true, requiresDirectInvocation = false, executionStrategy = "once-per-session",
-    requiresDependencyCollection = ResolutionScope.COMPILE_PLUS_RUNTIME, threadSafe = true, defaultPhase = LifecyclePhase.PROCESS_RESOURCES)
+    requiresDependencyCollection = ResolutionScope.RUNTIME, threadSafe = true, defaultPhase = LifecyclePhase.PROCESS_RESOURCES)
 // CHECKSTYLE_ON: LineLength
 public class CiFriendlyMojo extends AbstractCiFriendlyMojo {
   /**
