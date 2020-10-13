@@ -82,5 +82,5 @@ Will install all artifacts with your provided *<PROVIDE_VERSION>* version
 
 ## Deploy
 
-```mvn deploy -Drevision=<PROVIDE_VERSION> ```
+```mvn clean install -Drevision=<PROVIDE_VERSION> deploy```
 
