@@ -64,17 +64,23 @@ ci-friendly-flatten:clean removes any files created by ci-friendly-flatten:ci-fr
 ## build
 
 1. Define revision property (recommended in parent pom) 
+
+```
  <properties>
     <revision>5.0.0-SNAPSHOT</revision>
  </properties>
+```
 
-Option 1: mvn clean install 
+command: ``` mvn clean install ```
 Will install all artifacts with 5.0.0-SNAPSHOT version
 
-Option 2: mvn clean install Drevision=<PROVIDE_VERSION> 
+2. Provide version with revision arg
+
+command: ```mvn clean install -Drevision=<PROVIDE_VERSION> ```
+
 Will install all artifacts with your provided <PROVIDE_VERSION> version
 
 ## Deploy
 
-mvn clean install deploy -Drevision=<PROVIDE_VERSION> 
+```mvn clean install deploy -Drevision=<PROVIDE_VERSION> ```
 
