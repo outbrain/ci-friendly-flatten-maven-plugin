@@ -78,7 +78,7 @@ Will install all artifacts with 5.0.0-SNAPSHOT version
 
 command: ```mvn clean install -Drevision=<PROVIDE_VERSION> ```
 
-Will install all artifacts with your provided <PROVIDE_VERSION> version
+Will install all artifacts with your provided *<PROVIDE_VERSION>* version
 
 ## Deploy
 
