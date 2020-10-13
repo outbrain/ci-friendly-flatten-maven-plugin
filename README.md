@@ -48,7 +48,7 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
                 <goals>
                   <!-- ensure proper cleanup will run on clean phase as default configured in the plugin-->
                   <goal>clean</goal>
-                  <!-- enable ci-friendly resolve versions run as default on process-resources phase as default configured in the plugin-->
+                  <!-- enable ci-friendly resolve versions run on process-resources phase as default configured in the plugin-->
                   <goal>ci-friendly</goal>
                 </goals>
               </execution>
