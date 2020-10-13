@@ -46,7 +46,9 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
             <executions>
               <execution>
                 <goals>
+                  <!-- ensure proper cleanup will run on clean phase as default configured in the plugin-->
                   <goal>clean</goal>
+                  <!-- enable ci-friendly resolve versions run as default on process-resources phase as default configured in the plugin-->
                   <goal>ci-friendly</goal>
                 </goals>
               </execution>
@@ -55,3 +57,24 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
         </plugins>
    </build>
 ```
+## Plugin Goals
+ci-friendly-flatten:ci-friendly generates the POM with resolved version and sets it as file of the maven project (Default maven phase binding: process-resources).
+ci-friendly-flatten:clean removes any files created by ci-friendly-flatten:ci-friendly (Default maven phase binding: clean).
+
+## build
+
+1. Define revision property (recommended in parent pom) 
+ <properties>
+    <revision>5.0.0-SNAPSHOT</revision>
+ </properties>
+
+Option 1: mvn clean install 
+Will install all artifacts with 5.0.0-SNAPSHOT version
+
+Option 2: mvn clean install Drevision=<PROVIDE_VERSION> 
+Will install all artifacts with your provided <PROVIDE_VERSION> version
+
+## Deploy
+
+mvn clean install deploy -Drevision=<PROVIDE_VERSION> 
+
