@@ -22,17 +22,11 @@ we decided to create a plugin that truly, really, only replaces the `revision`, 
 
 ## Quickstart
 This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}` to 
- values you set by passing them as args e.g.:
+ values you set by passing them as args. For example, installing version 2.0.0:
  
- 1. If you like to make a version 2.0.0 this can simply being achieved by using this:
- 
- ```mvn -Drevision=2.0.0 clean package```
- 
- 2. If you like to make a release with another version:
- 
- ```mvn -Drevision=2.0.0 -Dchangelist=[FILL_ME] -Dsha1=[FILL_ME] clean package```
+    mvn -Drevision=2.0.0 clean install
    
- writing the resulting pom to a file named `.ci-friendly-pom.xml` and instructing maven to use it.
+ writing the resulting pom to a file named `.ci-friendly-pom.xml` and setting it as the new reactor.
 ```
    <build>
         <plugins>
@@ -40,16 +34,13 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
             <groupId>com.outbrain.swinfra</groupId>
             <artifactId>ci-friendly-flatten-maven-plugin</artifactId>
             <!--<version>INSERT LATEST VERSION HERE</version>-->
-            <configuration>
-              <!-- Additional configurations -->
-            </configuration>
             <executions>
               <execution>
                 <goals>
-                  <!-- ensure proper cleanup will run on clean phase as default configured in the plugin-->
+                  <!-- Ensure proper cleanup. Will run on clean phase-->
                   <goal>clean</goal>
-                  <!-- enable ci-friendly resolve versions run on process-resources phase as default configured in the plugin-->
-                  <goal>ci-friendly</goal>
+                  <!-- Enable ci-friendly version resolution. Will run on process-resources phase-->
+                  <goal>flatten</goal>
                 </goals>
               </execution>
             </executions>
@@ -58,29 +49,27 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
    </build>
 ```
 ## Plugin Goals
- - ci-friendly-flatten:ci-friendly generates the POM with resolved version and sets it as file of the maven project (Default maven phase binding: process-resources).
- - ci-friendly-flatten:clean removes any files created by ci-friendly-flatten:ci-friendly (Default maven phase binding: clean).
+ - `ci-friendly-flatten:flatten` replaces `revision`, `sha1`, `changelist`, writes the resolved pom file to `.ci-friendly-pom.xml` and sets it as the new reactor (Default maven phase binding: process-resources).
+ - `ci-friendly-flatten:clean` removes any files created by ci-friendly-flatten:ci-friendly (Default maven phase binding: clean).
 
-## Build
+## Install
 
-1. Define revision property (recommended in parent pom) 
+1. To avoid having to type `-Drevision=<version>`, define a default revision property. 
 
-```
- <properties>
-    <revision>5.0.0-SNAPSHOT</revision>
- </properties>
-```
+         <properties>
+            <revision>5.0.0-SNAPSHOT</revision>
+         </properties>
 
-command: ``` mvn clean install ```
-Will install all artifacts with 5.0.0-SNAPSHOT version
+`mvn clean install`
+Will install all artifacts with 5.0.0-SNAPSHOT version.
 
 2. Provide version with revision arg
 
-command: ```mvn clean install -Drevision=<PROVIDE_VERSION> ```
+`mvn clean install -Drevision=<PROVIDE_VERSION>`
 
-Will install all artifacts with your provided *<PROVIDE_VERSION>* version
+Will install all artifacts with your provided *PROVIDE_VERSION* version
 
 ## Deploy
 
-```mvn clean install -Drevision=<PROVIDE_VERSION> deploy```
+Same as above, just use `mvn clean deploy`
 
