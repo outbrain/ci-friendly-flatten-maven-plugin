@@ -58,8 +58,8 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
    </build>
 ```
 ## Plugin Goals
-> - ci-friendly-flatten:ci-friendly generates the POM with resolved version and sets it as file of the maven project (Default maven phase binding: process-resources).
-> - ci-friendly-flatten:clean removes any files created by ci-friendly-flatten:ci-friendly (Default maven phase binding: clean).
+ - ci-friendly-flatten:ci-friendly generates the POM with resolved version and sets it as file of the maven project (Default maven phase binding: process-resources).
+ - ci-friendly-flatten:clean removes any files created by ci-friendly-flatten:ci-friendly (Default maven phase binding: clean).
 
 ## Build
 
