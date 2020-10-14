@@ -18,10 +18,10 @@ import java.util.Properties;
 
 @SuppressWarnings("deprecation")
 // CHECKSTYLE_OFF: LineLength
-@Mojo(name = "ci-friendly", requiresProject = true, requiresDirectInvocation = false, executionStrategy = "once-per-session",
+@Mojo(name = "flatten", requiresProject = true, requiresDirectInvocation = false, executionStrategy = "once-per-session",
     requiresDependencyCollection = ResolutionScope.RUNTIME, threadSafe = true, defaultPhase = LifecyclePhase.PROCESS_RESOURCES)
 // CHECKSTYLE_ON: LineLength
-public class CiFriendlyMojo extends AbstractCiFriendlyMojo {
+public class FlattenMojo extends AbstractCiFriendlyMojo {
   /**
    * The Maven Project.
    */
