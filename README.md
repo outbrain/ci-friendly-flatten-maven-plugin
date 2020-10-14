@@ -51,7 +51,8 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
 ## Plugin Goals
  - `ci-friendly-flatten:flatten` replaces `revision`, `sha1`, `changelist`, writes the resolved pom file to `.ci-friendly-pom.xml` and sets it as the new reactor (Default maven phase binding: process-resources).
  - `ci-friendly-flatten:clean` removes any files created by ci-friendly-flatten:ci-friendly (Default maven phase binding: clean).
-
+ - `ci-friendly-flatten:scmTag` tagging the project next iteration version, rely on [scm configuration](https://maven.apache.org/scm/maven-scm-plugin/usage.html).
+ 
 ## Install
 
 1. To avoid having to type `-Drevision=<version>`, define a default revision property. 
@@ -73,3 +74,61 @@ Will install all artifacts with your provided *PROVIDE_VERSION* version
 
 Same as above, just use `mvn clean deploy`
 
+
+## How we configured it ?
+
+Tools we used:
+- Bash script
+- Bitbucket as repository management.
+- TeamCity as build management and deployment.
+
+Steps:
+1. Add distributionManagement to your pom.xml project
+        ```
+          <distributionManagement>
+            <repository>
+              <id>releases</id>
+              <url>REPLACE_ME</url>
+            </repository>
+          </distributionManagement>
+        ```
+  
+2. Add *ci-friendly-flatten-maven-plugin* to your pom.xml project as mentioned above.
+3. TeamCity Configuration:
+    
+    - Add project system param "system.revision.version" and set with default value.
+    
+    - The project build steps:
+        
+      - Step #1 - (Pre-Step) CommandLine step with the following script content
+        ```
+          #!/bin/bash -x
+          REV_VERSION=`git describe --abbrev=0 --tags`
+          
+          echo "Got revision version $REV_VERSION"
+          ARTIFACT_ID=<MY_ARTIFACT_ID>
+          REV_VERSION=${REV_VERSION//$ARTIFACT_ID-/}
+          
+          echo "remove artifactId from version $REV_VERSION"
+          
+          #Increment the revision
+          echo $REV_VERSION | awk -F. -v OFS=. '{$NF+=1; print $0}' > newVersionTag.version
+          
+          NEW_REV_VERSION=`cat newVersionTag.version`
+          
+          echo "After increment version $NEW_REV_VERSION"
+          
+          #Write to TC what the build number
+          set +x
+          echo "##teamcity[buildNumber '$NEW_REV_VERSION']"
+          
+          #Pass system param to next build step
+          echo "##teamcity[setParameter name='system.revision.version' value='$NEW_REV_VERSION']"
+          set -x
+        ```
+       - Step #2 - (Run maven deploy) 
+          `mvn clean install deploy -Drevision=%system.revision.version%`
+       - Step #3 - (Tagging)
+          `mvn ci-friendly-flatten:scmTag -Drevision=%system.revision.version%`
+
+4. Run the build project        
