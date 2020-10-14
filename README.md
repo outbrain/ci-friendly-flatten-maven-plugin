@@ -84,15 +84,14 @@ Tools we used:
 
 Steps:
 1. Add distributionManagement to your pom.xml project
-
-        ```
+        
           <distributionManagement>
             <repository>
               <id>releases</id>
               <url>REPLACE_ME</url>
             </repository>
           </distributionManagement>
-        ```
+        
   
 2. Add *ci-friendly-flatten-maven-plugin* to your pom.xml project as mentioned above.
 3. TeamCity Configuration:
