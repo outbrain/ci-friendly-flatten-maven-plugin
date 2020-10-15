@@ -22,11 +22,13 @@ we decided to create a plugin that truly, really, only replaces the `revision`, 
 
 ## Quickstart
 This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}` to 
- values you set by passing them as args. For example, installing version 2.0.0:
+ values you set by passing them as args.
+ It then writes the resulting pom to a file named `.ci-friendly-pom.xml` and sets it as the new reactor.
+ For example, installing version 2.0.0:
  
     mvn -Drevision=2.0.0 clean install
    
- writing the resulting pom to a file named `.ci-friendly-pom.xml` and setting it as the new reactor.
+## Plugin setup
 ```
    <build>
         <plugins>
@@ -55,20 +57,21 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
  
 ## Install
 
-1. To avoid having to type `-Drevision=<version>`, define a default revision property. 
+1. To avoid having to type `-Drevision=<version>` define a default revision property. 
 
          <properties>
             <revision>5.0.0-SNAPSHOT</revision>
          </properties>
 
 `mvn clean install`
+
 Will install all artifacts with 5.0.0-SNAPSHOT version.
 
 2. Provide version with revision arg
 
-`mvn clean install -Drevision=<PROVIDE_VERSION>`
+`mvn clean install -Drevision=<VERSION>`
 
-Will install all artifacts with your provided *PROVIDE_VERSION* version
+Will install all artifacts with your provided *VERSION*
 
 ## Deploy
 
@@ -83,20 +86,10 @@ Tools we used:
 - TeamCity as build management and deployment.
 
 Steps:
-1. Add distributionManagement to your pom.xml project
-        
-          <distributionManagement>
-            <repository>
-              <id>releases</id>
-              <url>REPLACE_ME</url>
-            </repository>
-          </distributionManagement>
-        
-  
-2. Add *ci-friendly-flatten-maven-plugin* to your pom.xml project as mentioned above.
-3. TeamCity Configuration:
+1. Add *ci-friendly-flatten-maven-plugin* to your pom.xml project as mentioned above.
+2. TeamCity Configuration:
     
-    - Add project system param "system.revision.version" and set with default value.
+    - Add project system param "system.version" and set with default value.
     
     - The project build steps:
         
