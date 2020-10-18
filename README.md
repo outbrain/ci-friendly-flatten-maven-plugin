@@ -22,7 +22,7 @@ This plugin generates a ci-friendly pom by replacing all ${revision} to relevant
               <execution>
                 <goals>
                   <goal>clean</goal>
-                  <goal>ci-friendly</goal>
+                  <goal>flatten</goal>
                 </goals>
               </execution>
             </executions>
