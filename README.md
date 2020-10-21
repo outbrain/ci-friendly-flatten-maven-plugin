@@ -52,13 +52,13 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
 ```
 ## Plugin Goals
  - `ci-friendly-flatten:flatten` Replaces `revision`, `sha1`, `changelist`, writes the resolved pom file to `.ci-friendly-pom.xml` and sets it as the new reactor (Default maven phase binding: process-resources).
- - `ci-friendly-flatten:clean` Removes any files created by ci-friendly-flatten:ci-friendly (Default maven phase binding: clean).
- - `ci-friendly-flatten:version` Fetch the project tag and write next tag version into revision.txt file, rely on [scm configuration](https://maven.apache.org/scm/maven-scm-plugin/usage.html).
- - `ci-friendly-flatten:scmTag` Tagging the project next iteration version, rely on [scm configuration](https://maven.apache.org/scm/maven-scm-plugin/usage.html).
+ - `ci-friendly-flatten:clean` Removes any files created by ci-friendly-flatten:flatten (Default maven phase binding: clean).
+ - `ci-friendly-flatten:version` Fetches the latest git tag, increments it and writes it to revision.txt, relies on [scm configuration](https://maven.apache.org/scm/maven-scm-plugin/usage.html).
+ - `ci-friendly-flatten:scmTag` Tags the commit with the updated version and pushes the tag, relies on [scm configuration](https://maven.apache.org/scm/maven-scm-plugin/usage.html).
  
-## Install
+## Installing artifacts
 
-1. To avoid having to type `-Drevision=<version>` define a default revision property. 
+1. To avoid having to type `-Drevision=<version>` when installing locally, define a default revision property. 
 
          <properties>
             <revision>5.0.0-SNAPSHOT</revision>
@@ -68,35 +68,32 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
 
 Will install all artifacts with 5.0.0-SNAPSHOT version.
 
-2. Provide version with revision arg
+2. Provide the version with revision arg
 
 `mvn clean install -Drevision=<VERSION>`
 
 Will install all artifacts with your provided *VERSION*
 
-## Deploy
+## Deploying artifacts
 
 Same as above, just use `mvn clean deploy -Drevision=<VERSION>`
 
 
 ## How we configured it ?
 
-Tools we used:
-- Bash script
-- Bitbucket as repository management.
-- TeamCity as build management and deployment.
-
-Steps:
-1. Add *ci-friendly-flatten-maven-plugin* to your pom.xml project as mentioned above.
+1. We added *ci-friendly-flatten-maven-plugin* to our pom.xml.
 2. TeamCity Configuration:
     
-    - Add project system param "system.version" and set with default value.
+    - Added a project system param `system.version`.
     
     - The project build steps:
         
-      - Step #1 - (Maven step) Write next revision into revision.txt file
+      - Step #1 - (Maven step) Fetch the latest git tag, increment it and write the result to revision.txt.
+      This is the version we are going to release.
+      
         `mvn ci-friendly-flatten:version`
-      - Step #2 - (Command line step) Set system.version param in order we can use it in other steps
+      - Step #2 - (Command line step) Set a `system.version` TeamCity parameter with our soon to be released version, in order to use it in the next steps
+      
         ```
         #!/bin/bash -x
         VER_PATH="%teamcity.build.checkoutDir%/revision.txt"
@@ -104,9 +101,9 @@ Steps:
         set +x
         echo "##teamcity[setParameter name='system.version' value='$REV']"
         ```
-      - Step #3 - (Maven step) deploy 
-          `mvn clean install deploy -Drevision=%system.version%`
-      - Step #4 - (Maven step) Tagging
-          `mvn ci-friendly-flatten:scmTag -Drevision=%system.version%`
-
-4. Run the build project        
+      - Step #3 - (Maven step) deploy
+       
+          `mvn clean deploy -Drevision=%system.version%`
+      - Step #4 - (Maven step) Tag the current commit with the updated version and push the tag
+      
+          `mvn ci-friendly-flatten:scmTag -Drevision=%system.version%`        
