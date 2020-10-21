@@ -107,6 +107,6 @@ Steps:
       - Step #3 - (Maven step) deploy 
           `mvn clean install deploy -Drevision=%system.version%`
       - Step #4 - (Maven step) Tagging
-          `mvn ci-friendly-flatten:scmTag -Drevision=%system.revision.version%`
+          `mvn ci-friendly-flatten:scmTag -Drevision=%system.version%`
 
 4. Run the build project        
