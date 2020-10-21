@@ -53,7 +53,7 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
 ## Plugin Goals
  - `ci-friendly-flatten:flatten` Replaces `revision`, `sha1`, `changelist`, writes the resolved pom file to `.ci-friendly-pom.xml` and sets it as the new reactor (Default maven phase binding: process-resources).
  - `ci-friendly-flatten:clean` Removes any files created by ci-friendly-flatten:ci-friendly (Default maven phase binding: clean).
- - `ci-friendly-flatten:version` Fetch the project tag and write next tag version into revision.txt file, rely on [scm configuration](https://maven.apache.org/scm/maven-scm-plugin/usage.html) configuration.
+ - `ci-friendly-flatten:version` Fetch the project tag and write next tag version into revision.txt file, rely on [scm configuration](https://maven.apache.org/scm/maven-scm-plugin/usage.html).
  - `ci-friendly-flatten:scmTag` Tagging the project next iteration version, rely on [scm configuration](https://maven.apache.org/scm/maven-scm-plugin/usage.html).
  
 ## Install
