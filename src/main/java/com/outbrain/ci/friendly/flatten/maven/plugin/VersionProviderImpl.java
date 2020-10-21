@@ -23,10 +23,11 @@ public class VersionProviderImpl implements VersionProvider {
           builder.append(line);
         }
       }
+      process.waitFor();
       // return the output
       return builder.toString();
 
-    } catch (IOException e) {
+    } catch (IOException | InterruptedException e) {
       throw new MojoExecutionException("Execution of command '" + command
           + "' failed", e);
     }

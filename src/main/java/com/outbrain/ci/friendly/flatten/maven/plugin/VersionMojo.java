@@ -28,10 +28,15 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.scm.plugin.AbstractScmMojo;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.Collections;
+import java.util.List;
 
 
 @Mojo(name = "version", aggregator = true, requiresProject = true, requiresDirectInvocation = true,
-    executionStrategy = "once-per-session", threadSafe = true, defaultPhase = LifecyclePhase.INITIALIZE)
+    executionStrategy = "once-per-session", threadSafe = true, defaultPhase = LifecyclePhase.VALIDATE)
 public class VersionMojo extends AbstractScmMojo {
   /**
    * The Maven Project.
@@ -45,14 +50,20 @@ public class VersionMojo extends AbstractScmMojo {
   @Parameter(defaultValue = "${session}", readonly = true, required = true)
   private MavenSession session;
 
-  @Parameter(property = "tag.fetch", defaultValue = "false")
+  @Parameter(property = "tag.fetch", defaultValue = "true")
   private Boolean tagFetch;
 
-  @Parameter(property = "git.command", defaultValue = "git describe --abbrev=0 --tags")
+  @Parameter(property = "command", defaultValue = "git describe --abbrev=0 --tags")
   private String command;
 
   @Inject
   private VersionProvider versionProvider;
+
+  @Parameter(defaultValue = "${reactorProjects}", required = true)
+  private List<MavenProject> reactorProjects;
+
+  @Parameter(property = "file.name", defaultValue = "revision.txt")
+  private String fileName;
 
   /**
    * {@inheritDoc}
@@ -60,29 +71,37 @@ public class VersionMojo extends AbstractScmMojo {
   public void execute()
       throws MojoExecutionException {
     super.execute();
-    if (tagFetch) {
-      final String version = versionProvider.getVersion(command);
+    final String version = versionProvider.getVersion(command);
 
-      getLog().info("version:"+version);
-      // define a new property in the Maven Project
-      String revision = removePrefix(version);
-      getLog().info("revision without prefix:"+revision);
+    getLog().info("Current version:" + version);
+    // define a new property in the Maven Project
+    String revision = removePrefix(version);
+    getLog().info("revision without prefix:" + revision);
 
-      String nextRevision = incrementRevision(revision);
+    String nextRevision = incrementRevision(revision);
 
-      project.getProperties().put("internal.revision", nextRevision);
+    project.getProperties().put("internal.revision", nextRevision);
 
-      // Maven Plugins have built in logging too
-      getLog().info("Next revision: " + nextRevision);
+    writeVersionToFile(nextRevision);
 
-      System.setProperty("system.swinfra.version", nextRevision);
+    // Maven Plugins have built in logging too
+    getLog().info("Next revision: " + nextRevision);
 
-      //Team-City indication
-      getLog().info("##teamcity [buildNumber "+nextRevision+"]");
-    } else {
-      getLog().info("Skip git tag fetch, using revision");
+  }
+
+  private void writeVersionToFile(String nextRevision) throws MojoExecutionException {
+    final File file = new File(fileName);
+
+    try {
+      if (!file.createNewFile()) {
+        getLog().info("Overwrite file: " + file.getAbsolutePath());
+      } else {
+        getLog().info("Write to new file: " + file.getAbsolutePath());
+      }
+      Files.write(file.toPath(), Collections.singletonList(nextRevision), StandardCharsets.UTF_8);
+    } catch (Exception e) {
+      throw new MojoExecutionException(e.getMessage(), e);
     }
-
   }
 
   private String incrementRevision(String revision) {
@@ -104,5 +123,4 @@ public class VersionMojo extends AbstractScmMojo {
   private String removePrefix(String version) {
     return version.substring(version.lastIndexOf("-") + 1);
   }
-
 }
