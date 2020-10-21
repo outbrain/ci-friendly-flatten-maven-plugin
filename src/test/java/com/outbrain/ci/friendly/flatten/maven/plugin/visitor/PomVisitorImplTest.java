@@ -1,6 +1,5 @@
 package com.outbrain.ci.friendly.flatten.maven.plugin.visitor;
 
-
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
