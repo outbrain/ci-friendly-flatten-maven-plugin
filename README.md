@@ -76,7 +76,7 @@ Will install all artifacts with your provided *VERSION*
 
 ## Deploy
 
-Same as above, just use `mvn clean deploy`
+Same as above, just use `mvn clean deploy -Drevision=<VERSION>`
 
 
 ## How we configured it ?
