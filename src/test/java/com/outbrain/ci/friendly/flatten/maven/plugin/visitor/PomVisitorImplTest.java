@@ -1,28 +1,29 @@
 package com.outbrain.ci.friendly.flatten.maven.plugin.visitor;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class PomVisitorImplTest {
-  private PomVisitor visitor;
+  private PomVisitorImpl visitor;
 
-  @Before
+  @BeforeEach
   public void before() {
     visitor = new PomVisitorImpl();
   }
 
   @Test
   public void testFullModifyPom() throws Exception {
-    final File originalPomFile = new File( "src/test/resources/all/original-test-pom.xml" );
+    final File originalPomFile = new File("src/test/resources/all/original-test-pom.xml");
     final String originalPom = readPom(originalPomFile);
 
-    final File resultPomFile = new File( "src/test/resources/all/result-test-pom.xml" );
+    final File resultPomFile = new File("src/test/resources/all/result-test-pom.xml");
     final String resultPom = readPom(resultPomFile);
 
     final String modifiedPom = visitor.visit(originalPom, "test-revision", "test-sha1", "test-changelist");
@@ -32,10 +33,10 @@ public class PomVisitorImplTest {
 
   @Test
   public void testOnlyRevisionPom() throws Exception {
-    final File originalPomFile = new File( "src/test/resources/revision/original-test-pom.xml" );
+    final File originalPomFile = new File("src/test/resources/revision/original-test-pom.xml");
     final String originalPom = readPom(originalPomFile);
 
-    final File resultPomFile = new File( "src/test/resources/revision/result-test-pom.xml" );
+    final File resultPomFile = new File("src/test/resources/revision/result-test-pom.xml");
     final String resultPom = readPom(resultPomFile);
 
     final String modifiedPom = visitor.visit(originalPom, "test-revision", null, null);
@@ -45,10 +46,10 @@ public class PomVisitorImplTest {
 
   @Test
   public void testRevisionReplacedSha1DefaultReplacePom() throws Exception {
-    final File originalPomFile = new File( "src/test/resources/revision.and.sha1/original-test-pom.xml" );
+    final File originalPomFile = new File("src/test/resources/revision.and.sha1/original-test-pom.xml");
     final String originalPom = readPom(originalPomFile);
 
-    final File resultPomFile = new File( "src/test/resources/revision.and.sha1/result-test-pom.xml" );
+    final File resultPomFile = new File("src/test/resources/revision.and.sha1/result-test-pom.xml");
     final String resultPom = readPom(resultPomFile);
 
     final String modifiedPom = visitor.visit(originalPom, "test-revision", null, null);
@@ -58,10 +59,10 @@ public class PomVisitorImplTest {
 
   @Test
   public void testRevisionReplacedChangeListDefaultReplacePom() throws Exception {
-    final File originalPomFile = new File( "src/test/resources/revision.and.changelist/original-test-pom.xml" );
+    final File originalPomFile = new File("src/test/resources/revision.and.changelist/original-test-pom.xml");
     final String originalPom = readPom(originalPomFile);
 
-    final File resultPomFile = new File( "src/test/resources/revision.and.changelist/result-test-pom.xml" );
+    final File resultPomFile = new File("src/test/resources/revision.and.changelist/result-test-pom.xml");
     final String resultPom = readPom(resultPomFile);
 
     final String modifiedPom = visitor.visit(originalPom, "test-revision", null, null);

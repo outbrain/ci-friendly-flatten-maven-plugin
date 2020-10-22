@@ -72,7 +72,7 @@
     <maven-source-plugin.version.a>2.2.1</maven-source-plugin.version.a>
     <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
     <maven-scm.version>1.11.2</maven-scm.version>
-    <junit.version>4.13</junit.version>
+    <junit-jupiter-engine.version>5.7.0</junit-jupiter-engine.version>
   </properties>
 
   <dependencies>
@@ -131,10 +131,11 @@
       <artifactId>maven-scm-plugin</artifactId>
       <version>${maven-scm.version}</version>
     </dependency>
+
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit-jupiter-engine.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

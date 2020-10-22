@@ -1,7 +1,6 @@
 package com.outbrain.ci.friendly.flatten.maven.plugin;
 
 
-import com.outbrain.ci.friendly.flatten.maven.plugin.visitor.PomVisitor;
 import com.outbrain.ci.friendly.flatten.maven.plugin.visitor.PomVisitorImpl;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.execution.MavenSession;
@@ -18,7 +17,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 
-@SuppressWarnings("deprecation")
 // CHECKSTYLE_OFF: LineLength
 @Mojo(name = "flatten", requiresProject = true, requiresDirectInvocation = false, executionStrategy = "once-per-session",
     requiresDependencyCollection = ResolutionScope.RUNTIME, threadSafe = true, defaultPhase = LifecyclePhase.PROCESS_RESOURCES)
@@ -36,16 +34,13 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
   @Parameter(defaultValue = "${session}", readonly = true, required = true)
   private MavenSession session;
 
-  @Parameter(property = "tagPrefix", defaultValue = "")
-  private String tagPrefix;
-
   @Parameter(property = "sha1")
   private String sha1;
 
   @Parameter(property = "changelist")
   private String changeList;
 
-  private final PomVisitor pomVisitor = new PomVisitorImpl();
+  private final PomVisitorImpl pomVisitor = new PomVisitorImpl();
 
   /**
    * {@inheritDoc}
@@ -55,7 +50,7 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
     final String revision = getRevision();
     final String modifiedPom = pomVisitor.visit(originalPom, revision, sha1, changeList);
     if (originalPom.equals(modifiedPom)) {
-      getLog().info("POM is not required CI friendly flatten operation");
+      getLog().info("Pom does not have any CI friendly properties");
     } else {
       getLog().info("Replacing CI friendly properties for project " + this.project.getId() + "...");
       final File ciFriendlyPomFile = writePom(modifiedPom);
