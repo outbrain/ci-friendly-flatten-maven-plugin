@@ -73,6 +73,7 @@
     <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
     <maven-scm.version>1.11.2</maven-scm.version>
     <junit-jupiter-engine.version>5.7.0</junit-jupiter-engine.version>
+    <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
   </properties>
 
   <dependencies>
@@ -251,7 +252,11 @@
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
       </plugin>
-
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+      </plugin>
     </plugins>
   </build>
 
