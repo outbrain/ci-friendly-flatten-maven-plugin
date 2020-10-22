@@ -1,6 +1,7 @@
 package com.outbrain.ci.friendly.flatten.maven.plugin;
 
 
+import com.outbrain.ci.friendly.flatten.maven.plugin.visitor.PomVisitorImpl;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -16,7 +17,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 
-@SuppressWarnings("deprecation")
 // CHECKSTYLE_OFF: LineLength
 @Mojo(name = "flatten", requiresProject = true, requiresDirectInvocation = false, executionStrategy = "once-per-session",
     requiresDependencyCollection = ResolutionScope.RUNTIME, threadSafe = true, defaultPhase = LifecyclePhase.PROCESS_RESOURCES)
@@ -34,14 +34,13 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
   @Parameter(defaultValue = "${session}", readonly = true, required = true)
   private MavenSession session;
 
-  @Parameter(property = "tagPrefix", defaultValue = "")
-  private String tagPrefix;
-
   @Parameter(property = "sha1")
   private String sha1;
 
   @Parameter(property = "changelist")
   private String changeList;
+
+  private final PomVisitorImpl pomVisitor = new PomVisitorImpl();
 
   /**
    * {@inheritDoc}
@@ -49,9 +48,9 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
   public void execute() throws MojoExecutionException {
     final String originalPom = readPom();
     final String revision = getRevision();
-    final String modifiedPom = replacePlaceHolders(originalPom, revision, sha1, changeList);
+    final String modifiedPom = pomVisitor.visit(originalPom, revision, sha1, changeList);
     if (originalPom.equals(modifiedPom)) {
-      getLog().info("POM is not CI friendly");
+      getLog().info("Pom does not have any CI friendly properties");
     } else {
       getLog().info("Replacing CI friendly properties for project " + this.project.getId() + "...");
       final File ciFriendlyPomFile = writePom(modifiedPom);
@@ -70,14 +69,6 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
       throw new MojoExecutionException(message);
     }
     return flattenedPomFile;
-  }
-
-  private String replacePlaceHolders(final String originalPom, final String revision, String sha1, String changeList) {
-
-    return originalPom.replace("${revision}", revision)
-        .replace("${tagPrefix}", tagPrefix != null ? tagPrefix : "")
-        .replace("${sha1}", sha1 != null ? sha1 : "")
-        .replace("${changelist}", changeList != null ? changeList : "");
   }
 
   private String readPom() throws MojoExecutionException {
