@@ -89,8 +89,10 @@ Same as above, just use `mvn clean deploy -Drevision=<VERSION>`
     - The project build steps:
      
       - Step #0 New project should tag their project before step 1 (git tag [https://git-scm.com/book/en/v2/Git-Basics-Tagging]) 
-      `git tag -a "1.0.0" -m "my version '1.0.0"` 
-      `git push origin "1.0.0"`        
+      
+        `git tag -a "1.0.0" -m "my version '1.0.0'"`
+      
+        `git push origin "1.0.0"`        
 
       - Step #1 - (Maven step) Fetch the latest git tag, increment it and write the result to revision.txt.
       This is the version we are going to release.
