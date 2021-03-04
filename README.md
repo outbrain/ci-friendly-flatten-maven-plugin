@@ -91,7 +91,7 @@ Same as above, just use `mvn clean deploy -Drevision=<VERSION>`
       - Step #1 - (Maven step) Fetch the latest git tag, increment it and write the result to revision.txt.
       This is the version we are going to release.
       
-      ## Note: New project should tag their project (git tag https://git-scm.com/book/en/v2/Git-Basics-Tagging) 
+      Note: New project should tag their project (git tag [https://git-scm.com/book/en/v2/Git-Basics-Tagging]) 
 
         `mvn ci-friendly-flatten:version`
       - Step #2 - (Command line step) Set a `system.version` TeamCity parameter with our soon to be released version, in order to use it in the next steps
