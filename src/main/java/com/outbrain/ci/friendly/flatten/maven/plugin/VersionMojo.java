@@ -78,6 +78,7 @@ public class VersionMojo extends AbstractScmMojo {
     String version = versionProvider.getVersion(command);
 
     if (version == null || version.equals("")) {
+      getLog().info("Failed to retrieve version tag, continue with default tag:" + defaultTag);
       version = defaultTag;
     }
 
