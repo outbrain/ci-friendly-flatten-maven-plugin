@@ -66,7 +66,7 @@ public class VersionMojo extends AbstractScmMojo {
   private String fileName;
 
 
-  @Parameter(property = "default.tag", defaultValue = "0.0.0.1")
+  @Parameter(property = "default.tag", defaultValue = "${project.artifactId}-0.0.0.1")
   private String defaultTag;
 
   /**
