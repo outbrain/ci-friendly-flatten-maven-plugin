@@ -65,13 +65,22 @@ public class VersionMojo extends AbstractScmMojo {
   @Parameter(property = "file.name", defaultValue = "revision.txt")
   private String fileName;
 
+
+  @Parameter(property = "default.tag", defaultValue = "${project.artifactId}-0.0.0.1")
+  private String defaultTag;
+
   /**
    * {@inheritDoc}
    */
   public void execute()
       throws MojoExecutionException {
     super.execute();
-    final String version = versionProvider.getVersion(command);
+    String version = versionProvider.getVersion(command);
+
+    if (version == null || version.equals("")) {
+      getLog().info("Failed to retrieve version tag, continuing with default tag:" + defaultTag);
+      version = defaultTag;
+    }
 
     getLog().info("Current version:" + version);
     // define a new property in the Maven Project
