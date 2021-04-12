@@ -89,6 +89,8 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
     final Properties systemProperties = this.session.getSystemProperties();
     if (systemProperties.containsKey("revision")) {
       return systemProperties.getProperty("revision");
+    } else if (this.project.getProperties().containsKey("revision")) {
+      return this.project.getProperties().getProperty("revision");
     } else {
       return this.project.getVersion();
     }
