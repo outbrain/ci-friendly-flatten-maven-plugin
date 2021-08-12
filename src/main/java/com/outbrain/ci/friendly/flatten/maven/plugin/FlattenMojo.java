@@ -60,6 +60,15 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
 
   private File writePom(final String content) throws MojoExecutionException {
     final File flattenedPomFile = getCiFriendlyPomFile();
+
+    final File parentFile = flattenedPomFile.getParentFile();
+    if (!parentFile.exists()) {
+      boolean success = parentFile.mkdirs();
+      if (!success) {
+        throw new MojoExecutionException("Failed to create directory " + flattenedPomFile.getParent());
+      }
+    }
+
     try (FileWriter writer = new FileWriter(flattenedPomFile)) {
       writer.write(content);
       getLog().info("Successfully wrote to the file.");
