@@ -69,6 +69,9 @@ public class VersionMojo extends AbstractScmMojo {
   @Parameter(property = "default.tag", defaultValue = "${project.artifactId}-0.0.0.1")
   private String defaultTag;
 
+  @Parameter(property = "version.prefix", defaultValue = "-")
+  private String versionPrefix;
+
   /**
    * {@inheritDoc}
    */
@@ -130,6 +133,7 @@ public class VersionMojo extends AbstractScmMojo {
   }
 
   private String removePrefix(String version) {
-    return version.substring(version.lastIndexOf("-") + 1);
+    String prefix = versionPrefix == null ? "-" : versionPrefix;
+    return version.substring(version.lastIndexOf(prefix) + 1);
   }
 }
