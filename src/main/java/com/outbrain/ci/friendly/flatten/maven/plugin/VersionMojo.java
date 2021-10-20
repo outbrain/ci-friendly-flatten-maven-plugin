@@ -69,8 +69,8 @@ public class VersionMojo extends AbstractScmMojo {
   @Parameter(property = "default.tag", defaultValue = "${project.artifactId}-0.0.0.1")
   private String defaultTag;
 
-  @Parameter(property = "version.prefix", defaultValue = "-")
-  private String versionPrefix;
+  @Parameter(property = "version.regex", defaultValue = "[0-9][0-9.]*$")
+  private String versionRegex;
 
   /**
    * {@inheritDoc}
@@ -87,7 +87,7 @@ public class VersionMojo extends AbstractScmMojo {
 
     getLog().info("Current version:" + version);
     // define a new property in the Maven Project
-    String revision = removePrefix(version);
+    String revision = getRevisionByRegex(version);
     getLog().info("revision without prefix:" + revision);
 
     String nextRevision = incrementRevision(revision);
@@ -132,8 +132,7 @@ public class VersionMojo extends AbstractScmMojo {
     return builder.toString();
   }
 
-  private String removePrefix(String version) {
-    String prefix = versionPrefix == null ? "-" : versionPrefix;
-    return version.substring(version.lastIndexOf(prefix) + 1);
+  private String getRevisionByRegex(String version) throws MojoExecutionException {
+   return VersionUtil.getVersion(version, versionRegex);
   }
 }
