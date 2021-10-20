@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 public class VersionUtilTest {
 
-  public static final String V_PREFIX_VERSION_PATTERN = "v[0-9][0-9.]*[0-9]$";
+  public static final String V_PREFIX_VERSION_PATTERN = "v"+DEFAULT_VERSION_REGEX;
 
   @Test
   public void testVersionMatcher1() throws Exception {
@@ -50,6 +50,12 @@ public class VersionUtilTest {
   }
   @Test
   public void testVersionMatcher6() throws Exception {
+    final String version = VersionUtil.getVersion("9.0", DEFAULT_VERSION_REGEX);
+    assertEquals("9.0", version);
+
+  }
+  @Test
+  public void testVersionMatcher7() throws Exception {
     final String version = VersionUtil.getVersion("9", DEFAULT_VERSION_REGEX);
     assertEquals("9", version);
 

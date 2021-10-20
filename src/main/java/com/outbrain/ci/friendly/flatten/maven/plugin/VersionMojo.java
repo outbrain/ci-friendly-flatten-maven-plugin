@@ -38,7 +38,7 @@ import java.util.List;
 @Mojo(name = "version", aggregator = true, requiresProject = true, requiresDirectInvocation = true,
     executionStrategy = "once-per-session", threadSafe = true, defaultPhase = LifecyclePhase.VALIDATE)
 public class VersionMojo extends AbstractScmMojo {
-  public static final String DEFAULT_VERSION_REGEX = "[0-9][0-9.]*[0-9]$|[0-9]$";
+  public static final String DEFAULT_VERSION_REGEX = "([0-9]+.)*[0-9]+$";
   /**
    * The Maven Project.
    */
