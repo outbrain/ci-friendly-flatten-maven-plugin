@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class VersionUtil {
 
   public static String getVersion(String version, String versionRegex) throws MojoExecutionException {
-    Pattern pattern = Pattern.compile(versionRegex, Pattern.CASE_INSENSITIVE);
+    Pattern pattern = Pattern.compile(versionRegex);
     final Matcher matcher = pattern.matcher(version);
     if (matcher.find()) {
       return matcher.group(0);

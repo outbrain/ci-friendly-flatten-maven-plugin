@@ -4,30 +4,30 @@ import com.outbrain.ci.friendly.flatten.maven.plugin.VersionUtil;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.Test;
 
+import static com.outbrain.ci.friendly.flatten.maven.plugin.VersionMojo.DEFAULT_VERSION_REGEX;
 import static org.junit.Assert.assertEquals;
 
 
 public class VersionUtilTest {
 
-  public static final String VERSION_PATTERN = "[0-9][0-9.]*$";
-  public static final String V_PREFIX_VERSION_PATTERN = "v[0-9][0-9.]*$";
+  public static final String V_PREFIX_VERSION_PATTERN = "v[0-9][0-9.]*[0-9]$";
 
   @Test
   public void testVersionMatcher1() throws Exception {
-    final String version = VersionUtil.getVersion("abc-dsffsd-44.0.0.0", VERSION_PATTERN);
+    final String version = VersionUtil.getVersion("abc-dsffsd-44.0.0.0", DEFAULT_VERSION_REGEX);
     assertEquals("44.0.0.0", version);
   }
 
   @Test
   public void testVersionMatcher2() throws Exception {
-    final String version = VersionUtil.getVersion("abc-4.0.0.0.0.0.0", VERSION_PATTERN);
+    final String version = VersionUtil.getVersion("abc-4.0.0.0.0.0.0", DEFAULT_VERSION_REGEX);
     assertEquals("4.0.0.0.0.0.0", version);
   }
 
 
   @Test
   public void testVersionMatcher3() throws Exception {
-    final String version = VersionUtil.getVersion("v4.0.0.0", VERSION_PATTERN);
+    final String version = VersionUtil.getVersion("v4.0.0.0", DEFAULT_VERSION_REGEX);
     assertEquals("4.0.0.0", version);
   }
 
@@ -39,6 +39,19 @@ public class VersionUtilTest {
 
   @Test(expected = MojoExecutionException.class)
   public void testVersionMatcherNoMatch() throws Exception {
-    final String version = VersionUtil.getVersion("blahblah", VERSION_PATTERN);
+    final String version = VersionUtil.getVersion("blahblah", DEFAULT_VERSION_REGEX);
+  }
+
+  @Test
+  public void testVersionMatcher5() throws Exception {
+    final String version = VersionUtil.getVersion("99", DEFAULT_VERSION_REGEX);
+    assertEquals("99", version);
+
+  }
+  @Test
+  public void testVersionMatcher6() throws Exception {
+    final String version = VersionUtil.getVersion("9", DEFAULT_VERSION_REGEX);
+    assertEquals("9", version);
+
   }
 }

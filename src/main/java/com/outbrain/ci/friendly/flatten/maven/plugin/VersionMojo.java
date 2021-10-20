@@ -38,6 +38,7 @@ import java.util.List;
 @Mojo(name = "version", aggregator = true, requiresProject = true, requiresDirectInvocation = true,
     executionStrategy = "once-per-session", threadSafe = true, defaultPhase = LifecyclePhase.VALIDATE)
 public class VersionMojo extends AbstractScmMojo {
+  public static final String DEFAULT_VERSION_REGEX = "[0-9][0-9.]*[0-9]$|[0-9]$";
   /**
    * The Maven Project.
    */
@@ -69,7 +70,7 @@ public class VersionMojo extends AbstractScmMojo {
   @Parameter(property = "default.tag", defaultValue = "${project.artifactId}-0.0.0.1")
   private String defaultTag;
 
-  @Parameter(property = "version.regex", defaultValue = "[0-9][0-9.]*$")
+  @Parameter(property = "version.regex", defaultValue = DEFAULT_VERSION_REGEX)
   private String versionRegex;
 
   /**
