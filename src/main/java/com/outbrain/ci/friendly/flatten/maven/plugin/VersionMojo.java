@@ -38,6 +38,7 @@ import java.util.List;
 @Mojo(name = "version", aggregator = true, requiresProject = true, requiresDirectInvocation = true,
     executionStrategy = "once-per-session", threadSafe = true, defaultPhase = LifecyclePhase.VALIDATE)
 public class VersionMojo extends AbstractScmMojo {
+  private static final String DEFAULT_PREFIX_REGEX = ".*-";
   /**
    * The Maven Project.
    */
@@ -69,8 +70,8 @@ public class VersionMojo extends AbstractScmMojo {
   @Parameter(property = "default.tag", defaultValue = "${project.artifactId}-0.0.0.1")
   private String defaultTag;
 
-  @Parameter(property = "prefix.tag", defaultValue = "-")
-  private String prefixTag;
+  @Parameter(property = "prefix.regex", defaultValue = DEFAULT_PREFIX_REGEX)
+  private String prefixRegex;
 
   /**
    * {@inheritDoc}
@@ -132,7 +133,8 @@ public class VersionMojo extends AbstractScmMojo {
     return builder.toString();
   }
 
-  private String removePrefix(String version) {
-    return VersionUtil.getVersion(version, "-");
+  private String removePrefix(String prefixedVersion) throws MojoExecutionException {
+    final String resolvedPrefixRegex = prefixRegex == null ? DEFAULT_PREFIX_REGEX : prefixRegex;
+    return VersionUtil.getVersion(prefixedVersion, resolvedPrefixRegex);
   }
 }
