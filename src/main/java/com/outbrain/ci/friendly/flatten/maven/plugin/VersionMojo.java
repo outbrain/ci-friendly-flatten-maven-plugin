@@ -133,9 +133,6 @@ public class VersionMojo extends AbstractScmMojo {
   }
 
   private String removePrefix(String version) {
-    if (prefixTag != null){
-      return version.substring(version.lastIndexOf(prefixTag) + 1);
-    }
-    return version.substring(version.lastIndexOf("-") + 1);
+    return VersionUtil.getVersion(version, "-");
   }
 }
