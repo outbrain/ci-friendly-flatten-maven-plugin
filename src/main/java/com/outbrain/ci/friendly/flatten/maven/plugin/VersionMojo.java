@@ -69,7 +69,7 @@ public class VersionMojo extends AbstractScmMojo {
   @Parameter(property = "default.tag", defaultValue = "${project.artifactId}-0.0.0.1")
   private String defaultTag;
 
-  @Parameter(property = "tag.prefix", defaultValue = "-")
+  @Parameter(property = "prefix.tag", defaultValue = "-")
   private String prefixTag;
 
   /**
