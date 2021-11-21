@@ -37,7 +37,7 @@ jobs:
       - name: Publish to Apache Maven Central
         run: |
           export GPG_TTY=$(tty)
-          mvn --batch-mode release:prepare release:perform
+          mvn -X --batch-mode release:prepare release:perform
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
