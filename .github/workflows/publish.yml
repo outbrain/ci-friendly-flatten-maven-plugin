@@ -9,19 +9,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up openjdk 8
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'openjdk'
-          java-version: '8'
+      # - name: Set up openjdk 8
+      #   uses: actions/setup-java@v2
+      #   with:
+      #     distribution: 'openjdk'
+      #     java-version: '8'
 
-      - name: Build with Maven
-        run: mvn clean install -DskipSing=false
+      # - name: Build with Maven
+      #   run: mvn clean install -DskipSing=false
 
-      - name: Publish to GitHub Packages Apache Maven
-        run: mvn deploy
-        env:
-          GITHUB_TOKEN: ${{ github.token }} # GITHUB_TOKEN is the default env for the password
+      # - name: Publish to GitHub Packages Apache Maven
+      #   run: mvn deploy
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }} # GITHUB_TOKEN is the default env for the password
 
       - name: Set up Apache Maven Central
         uses: actions/setup-java@v2
@@ -35,8 +35,9 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
 
       - name: Publish to Apache Maven Central
-        run: mvn deploy
+        run: mvn --batch-mode release:prepare release:perform
         env:
+          GPG_TTY: $(tty)
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
