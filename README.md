@@ -29,7 +29,7 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
     mvn -Drevision=2.0.0 clean install
    
 ## Plugin setup
-```
+```xml
    <build>
         <plugins>
           <plugin>
