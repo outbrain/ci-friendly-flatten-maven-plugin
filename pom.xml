@@ -54,7 +54,7 @@
     <java.compiler.source>1.8</java.compiler.source>
     <java.compiler.target>1.8</java.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <mavenVersion>3.2.5</mavenVersion>
+    <mavenVersion>3.8.4</mavenVersion>
     <maven-dependency-tree.version>2.2</maven-dependency-tree.version>
     <plexus-utils.version>3.3.0</plexus-utils.version>
     <maven-artifact-transfer.version>0.9.0</maven-artifact-transfer.version>
