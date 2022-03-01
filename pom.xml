@@ -60,7 +60,7 @@
     <maven-artifact-transfer.version>0.9.0</maven-artifact-transfer.version>
     <assertj-core.version>3.16.1</assertj-core.version>
     <maven-plugin-annotations.version>3.4</maven-plugin-annotations.version>
-    <maven-plugin-api.version>3.5.3</maven-plugin-api.version>
+    <maven-plugin-api.version>3.8.4</maven-plugin-api.version>
     <maven-invoker-plugin.version>3.2.1</maven-invoker-plugin.version>
     <maven-plugin-plugin.version>3.5.1</maven-plugin-plugin.version>
     <maven-release-plugin.version>3.0.0-M4</maven-release-plugin.version>
