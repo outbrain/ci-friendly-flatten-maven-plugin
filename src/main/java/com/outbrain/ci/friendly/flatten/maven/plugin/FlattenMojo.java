@@ -40,6 +40,9 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
   @Parameter(property = "changelist")
   private String changeList;
 
+  @Parameter(property = "removeRelativePath", defaultValue = "false")
+  private String removeRelativePath;
+
   private final PomVisitorImpl pomVisitor = new PomVisitorImpl();
 
   /**
@@ -48,7 +51,7 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
   public void execute() throws MojoExecutionException {
     final String originalPom = readPom();
     final String revision = getRevision();
-    final String modifiedPom = pomVisitor.visit(originalPom, revision, sha1, changeList);
+    final String modifiedPom = pomVisitor.visit(originalPom, revision, sha1, changeList, Boolean.valueOf(removeRelativePath));
     if (originalPom.equals(modifiedPom)) {
       getLog().info("Pom does not have any CI friendly properties");
     } else {

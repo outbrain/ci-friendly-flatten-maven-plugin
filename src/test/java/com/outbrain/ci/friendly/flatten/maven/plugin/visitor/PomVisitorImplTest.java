@@ -26,9 +26,24 @@ public class PomVisitorImplTest {
     final File resultPomFile = new File("src/test/resources/all/result-test-pom.xml");
     final String resultPom = readPom(resultPomFile);
 
-    final String modifiedPom = visitor.visit(originalPom, "test-revision", "test-sha1", "test-changelist");
-
+    final String modifiedPom = visitor.visit(originalPom, "test-revision", "test-sha1", "test-changelist", false);
+    
     assertEquals(resultPom, modifiedPom);
+    
+  }
+  
+  @Test
+  public void testFullModifyNoPathPom() throws Exception {
+	final File originalPomFile = new File("src/test/resources/all/original-removepath-test-pom.xml");
+	final String originalPom = readPom(originalPomFile);
+
+	final File resultPomFile = new File("src/test/resources/all/result-removepath-test-pom.xml");
+	final String resultPom = readPom(resultPomFile);
+
+	final String modifiedPom = visitor.visit(originalPom, "test-revision", "test-sha1", "test-changelist", true);
+	
+	assertEquals(resultPom, modifiedPom);
+	    
   }
 
   @Test
@@ -39,7 +54,7 @@ public class PomVisitorImplTest {
     final File resultPomFile = new File("src/test/resources/revision/result-test-pom.xml");
     final String resultPom = readPom(resultPomFile);
 
-    final String modifiedPom = visitor.visit(originalPom, "test-revision", null, null);
+    final String modifiedPom = visitor.visit(originalPom, "test-revision", null, null, false);
 
     assertEquals(resultPom, modifiedPom);
   }
@@ -52,7 +67,7 @@ public class PomVisitorImplTest {
     final File resultPomFile = new File("src/test/resources/revision.and.sha1/result-test-pom.xml");
     final String resultPom = readPom(resultPomFile);
 
-    final String modifiedPom = visitor.visit(originalPom, "test-revision", null, null);
+    final String modifiedPom = visitor.visit(originalPom, "test-revision", null, null, false);
 
     assertEquals(resultPom, modifiedPom);
   }
@@ -65,7 +80,7 @@ public class PomVisitorImplTest {
     final File resultPomFile = new File("src/test/resources/revision.and.changelist/result-test-pom.xml");
     final String resultPom = readPom(resultPomFile);
 
-    final String modifiedPom = visitor.visit(originalPom, "test-revision", null, null);
+    final String modifiedPom = visitor.visit(originalPom, "test-revision", null, null, false);
 
     assertEquals(resultPom, modifiedPom);
   }
