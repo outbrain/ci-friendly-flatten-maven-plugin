@@ -2,8 +2,8 @@
 
 This is the [ci-friendly-flatten-maven-plugin](https://github.com/outbrain/ci-friendly-flatten-maven-plugin).
 
-[![Apache License V.2](https://img.shields.io/badge/license-Apache%20V.2-blue.svg)](https://github.com/outbrain/ci-friendly-plugin/blob/master/LICENSE) 
-[![Build Status](https://travis-ci.org/outbrain/ci-friendly-flatten-maven-plugin.svg?branch=main)](https://travis-ci.org/github/outbrain/ci-friendly-flatten-maven-plugin)
+[![Apache License V.2](https://img.shields.io/badge/license-Apache%20V.2-blue.svg)](https://github.com/outbrain/ci-friendly-plugin/blob/master/LICENSE)
+[![.github/workflows/compile.yml](https://github.com/outbrain/ci-friendly-flatten-maven-plugin/actions/workflows/compile.yml/badge.svg)](https://github.com/outbrain/ci-friendly-flatten-maven-plugin/actions/workflows/compile.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/com.outbrain.swinfra/ci-friendly-flatten-maven-plugin.svg?label=Maven%20Central)](http://search.maven.org/#search%7Cga%7C1%7Cci-friendly-flatten-maven-plugin)
 
 ## Why another flatten plugin?
