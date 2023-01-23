@@ -4,6 +4,8 @@ package com.outbrain.ci.friendly.flatten.maven.plugin;
 import com.outbrain.ci.friendly.flatten.maven.plugin.visitor.PomVisitorImpl;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.execution.MavenSession;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -14,6 +16,7 @@ import org.apache.maven.project.MavenProject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Properties;
 
 
@@ -55,6 +58,16 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
       getLog().info("Replacing CI friendly properties for project " + this.project.getId() + "...");
       final File ciFriendlyPomFile = writePom(modifiedPom);
       this.project.setPomFile(ciFriendlyPomFile);
+      this.project.setOriginalModel(getModel(ciFriendlyPomFile));
+    }
+  }
+
+  private Model getModel(File file) throws MojoExecutionException {
+    MavenXpp3Reader reader = new MavenXpp3Reader();
+    try {
+      return reader.read(Files.newInputStream(file.toPath()));
+    } catch (Exception e) {
+      throw new MojoExecutionException("Error reading raw model.", e);
     }
   }
 
