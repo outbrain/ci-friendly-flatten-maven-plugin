@@ -37,7 +37,7 @@ jobs:
         run: |
           git config user.name "ayoukhananov"
           git config user.email "ayoukhananov@outbrain.com"
-          GPG_TTY=$(tty) mvn --batch-mode release:prepare release:perform
+          GPG_TTY=$(tty) mvn --batch-mode release:prepare release:perform -DskipSing=false
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
