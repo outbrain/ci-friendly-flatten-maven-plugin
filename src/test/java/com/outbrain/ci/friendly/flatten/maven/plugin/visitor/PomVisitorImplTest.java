@@ -1,8 +1,8 @@
 package com.outbrain.ci.friendly.flatten.maven.plugin.visitor;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class PomVisitorImplTest {
   private PomVisitorImpl visitor;
 
-  @Before
+  @BeforeEach
   public void before() {
     visitor = new PomVisitorImpl();
   }
