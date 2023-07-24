@@ -16,4 +16,28 @@ public class VersionUtil {
     return matcher.group(1);
   }
 
+    public static String incrementRevision(String revision, SemanticVersion part) {
+        String[] splitRevision = revision.split("\\.");
+        int incremented = Integer.parseInt(splitRevision[part.index]) + 1;
+
+        boolean resetNextParts = false;
+        final StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < splitRevision.length; i++) {
+            final String number;
+            if (part.index == i) {
+                number = Integer.toString(incremented);
+                resetNextParts = true;
+            } else if (resetNextParts) {
+                number = "0";
+            } else {
+                number = splitRevision[i];
+            }
+
+            builder
+                    .append(number)
+                    .append(i == splitRevision.length - 1 ? "" : ".");
+        }
+
+        return builder.toString();
+    }
 }
