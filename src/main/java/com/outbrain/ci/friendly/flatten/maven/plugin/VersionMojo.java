@@ -73,6 +73,9 @@ public class VersionMojo extends AbstractScmMojo {
   @Parameter(property = "prefix.regex", defaultValue = DEFAULT_PREFIX_REGEX)
   private String prefixRegex;
 
+  @Parameter(property = "semantic.version", defaultValue = "patch")
+  private String semanticVersion;
+
   /**
    * {@inheritDoc}
    */
@@ -91,7 +94,7 @@ public class VersionMojo extends AbstractScmMojo {
     String revision = removePrefix(version);
     getLog().info("revision without prefix:" + revision);
 
-    String nextRevision = incrementRevision(revision);
+    String nextRevision = VersionUtil.incrementRevision(revision, SemanticVersion.of(semanticVersion));
 
     project.getProperties().put("internal.revision", nextRevision);
 
@@ -115,22 +118,6 @@ public class VersionMojo extends AbstractScmMojo {
     } catch (Exception e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
-  }
-
-  private String incrementRevision(String revision) {
-    String[] splitRevision = revision.split("\\.");
-
-    Integer incremented = Integer.parseInt(splitRevision[splitRevision.length - 1]) + 1;
-
-    final StringBuilder builder = new StringBuilder();
-    for (int i = 0; i < splitRevision.length - 1; i++) {
-      builder
-          .append(splitRevision[i])
-          .append(".");
-    }
-    builder.append(incremented);
-
-    return builder.toString();
   }
 
   private String removePrefix(String prefixedVersion) throws MojoExecutionException {
