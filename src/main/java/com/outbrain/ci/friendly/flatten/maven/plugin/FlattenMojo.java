@@ -85,7 +85,7 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
 
     try (final FileWriter writer = new FileWriter(flattenedPomFile)) {
       writer.write(content);
-      getLog().info("Successfully wrote to " + flattenedPomFile.getAbsolutePath());
+      getLog().info("Successfully wrote to " + flattenedPomFile);
     } catch (final Exception e) {
       getLog().error("An error occurred while writing " + flattenedPomFile, e);
       final String message = e.getMessage();
