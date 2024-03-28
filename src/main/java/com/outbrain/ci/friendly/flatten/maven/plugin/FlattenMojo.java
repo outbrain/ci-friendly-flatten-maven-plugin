@@ -16,13 +16,14 @@ import org.apache.maven.project.MavenProject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Properties;
 
 
 // CHECKSTYLE_OFF: LineLength
 @Mojo(name = "flatten", requiresProject = true, requiresDirectInvocation = false, executionStrategy = "once-per-session",
-    requiresDependencyCollection = ResolutionScope.RUNTIME, threadSafe = true, defaultPhase = LifecyclePhase.PROCESS_RESOURCES)
+  requiresDependencyCollection = ResolutionScope.RUNTIME, threadSafe = true, defaultPhase = LifecyclePhase.PROCESS_RESOURCES)
 // CHECKSTYLE_ON: LineLength
 public class FlattenMojo extends AbstractCiFriendlyMojo {
   /**
@@ -62,11 +63,11 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
     }
   }
 
-  private Model getModel(File file) throws MojoExecutionException {
+  private Model getModel(final File file) throws MojoExecutionException {
     MavenXpp3Reader reader = new MavenXpp3Reader();
     try {
       return reader.read(Files.newInputStream(file.toPath()));
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw new MojoExecutionException("Error reading raw model.", e);
     }
   }
@@ -76,18 +77,18 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
 
     final File parentFile = flattenedPomFile.getParentFile();
     if (!parentFile.exists()) {
-      boolean success = parentFile.mkdirs();
+      final boolean success = parentFile.mkdirs();
       if (!success) {
         throw new MojoExecutionException("Failed to create directory " + flattenedPomFile.getParent());
       }
     }
 
-    try (FileWriter writer = new FileWriter(flattenedPomFile)) {
+    try (final FileWriter writer = new FileWriter(flattenedPomFile)) {
       writer.write(content);
-      getLog().info("Successfully wrote to the file.");
-    } catch (IOException e) {
+      getLog().info("Successfully wrote to " + flattenedPomFile.getAbsolutePath());
+    } catch (final Exception e) {
       getLog().error("An error occurred while writing " + flattenedPomFile, e);
-      String message = e.getMessage();
+      final String message = e.getMessage();
       throw new MojoExecutionException(message);
     }
     return flattenedPomFile;
@@ -96,10 +97,10 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
   private String readPom() throws MojoExecutionException {
     final File originalPomFile = this.project.getFile();
     try {
-      return FileUtils.readFileToString(originalPomFile);
-    } catch (IOException e) {
+      return FileUtils.readFileToString(originalPomFile, Charset.defaultCharset());
+    } catch (final IOException e) {
       getLog().error("An error occurred while reading " + originalPomFile, e);
-      String message = e.getMessage();
+      final String message = e.getMessage();
       throw new MojoExecutionException(message);
     }
   }
