@@ -44,6 +44,12 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
   @Parameter(property = "changelist")
   private String changeList;
 
+  /**
+   * Should automatically rewrite CI friendly POM or only when there is a change.
+   */
+  @Parameter(property = "autoRewriteCiFriendlyPoms", defaultValue = "true")
+  private boolean autoRewriteCiFriendlyPoms;
+
   private final PomVisitorImpl pomVisitor = new PomVisitorImpl();
 
   /**
@@ -56,11 +62,26 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
     if (originalPom.equals(modifiedPom)) {
       getLog().info("Pom does not have any CI friendly properties");
     } else {
-      getLog().info("Replacing CI friendly properties for project " + this.project.getId() + "...");
-      final File ciFriendlyPomFile = writePom(modifiedPom);
+      final File ciFriendlyPomFile = isUpdateNeeded(modifiedPom) ? writePom(modifiedPom) : getCiFriendlyPomFile();
       this.project.setPomFile(ciFriendlyPomFile);
       this.project.setOriginalModel(getModel(ciFriendlyPomFile));
     }
+  }
+
+  private boolean isUpdateNeeded(String content) throws MojoExecutionException {
+    if (autoRewriteCiFriendlyPoms) {
+      return true;
+    }
+    File flattenedPomFile = getCiFriendlyPomFile();
+    if (flattenedPomFile.exists()) {
+      String contentOfFlattenedPomFileBeforeUpdate = readFile(flattenedPomFile);
+      if(contentOfFlattenedPomFileBeforeUpdate.equals(content)){
+        getLog().info( "Skipping writing CI friendly properties for project " + this.project.getId() +
+                " as it is already up to date");
+        return false;
+      }
+    }
+    return true;
   }
 
   private Model getModel(final File file) throws MojoExecutionException {
@@ -73,6 +94,7 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
   }
 
   private File writePom(final String content) throws MojoExecutionException {
+    getLog().info("Replacing CI friendly properties for project " + this.project.getId() + "...");
     final File flattenedPomFile = getCiFriendlyPomFile();
 
     final File parentFile = flattenedPomFile.getParentFile();
@@ -96,10 +118,14 @@ public class FlattenMojo extends AbstractCiFriendlyMojo {
 
   private String readPom() throws MojoExecutionException {
     final File originalPomFile = this.project.getFile();
+    return readFile(originalPomFile);
+  }
+
+  private String readFile(File file) throws MojoExecutionException {
     try {
-      return FileUtils.readFileToString(originalPomFile, Charset.defaultCharset());
+      return FileUtils.readFileToString(file, Charset.defaultCharset());
     } catch (final IOException e) {
-      getLog().error("An error occurred while reading " + originalPomFile, e);
+      getLog().error("An error occurred while reading " + file, e);
       final String message = e.getMessage();
       throw new MojoExecutionException(message);
     }
