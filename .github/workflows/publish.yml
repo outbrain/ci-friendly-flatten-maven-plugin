@@ -3,8 +3,4 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-      publish:
-        uses: outbrain/.github-private/workflow-templates/publish-to-mevan-central.yaml
+    uses: outbrain/.github-private/.github/workflows/publish-to-maven-central.yaml@master
