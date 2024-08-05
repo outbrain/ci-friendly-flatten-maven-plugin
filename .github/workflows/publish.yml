@@ -3,4 +3,4 @@ on:
 
 jobs:
   build:
-    uses: outbrain/.github-private/.github/workflows/publish-to-maven-central.yaml@master
+    uses: outbrain/.github-private/.github/workflows/publish-to-maven-central.yaml@main
