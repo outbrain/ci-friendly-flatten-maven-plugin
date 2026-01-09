@@ -50,6 +50,81 @@ This plugin flattens a pom by replacing `${revision}`, `${sha1}`, `${changelist}
         </plugins>
    </build>
 ```
+
+## Configuration Parameters
+
+The plugin supports the following configuration parameters:
+
+### outputDirectory
+
+**Description**: The directory where the generated CI-friendly POM file will be written to.
+
+**Property**: None (must be configured in POM)
+
+**Default Value**: `${project.basedir}` (project root directory)
+
+**Example**: To write the flattened POM to the `target/` directory:
+
+```xml
+<plugin>
+  <groupId>com.outbrain.swinfra</groupId>
+  <artifactId>ci-friendly-flatten-maven-plugin</artifactId>
+  <configuration>
+    <outputDirectory>${project.build.directory}</outputDirectory>
+  </configuration>
+  <executions>
+    <execution>
+      <goals>
+        <goal>clean</goal>
+        <goal>flatten</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
+```
+
+**Benefits of using `${project.build.directory}`**:
+- Keeps generated files in the `target/` directory alongside other build artifacts
+- No need to add `.ci-friendly-pom.xml` to `.gitignore`
+- Cleaner workspace in multi-module projects
+- Consistent with standard Maven practices
+
+### ciFriendlyPomFilename
+
+**Description**: The filename of the generated CI-friendly POM file.
+
+**Property**: `ciFriendlyPomFilename`
+
+**Default Value**: `.ci-friendly-pom.xml`
+
+**Example**: To use a custom filename:
+
+```xml
+<configuration>
+  <ciFriendlyPomFilename>flattened-pom.xml</ciFriendlyPomFilename>
+</configuration>
+```
+
+Or via command line:
+```bash
+mvn clean install -DciFriendlyPomFilename=my-flattened-pom.xml
+```
+
+### autoRewriteCiFriendlyPoms
+
+**Description**: Controls whether to automatically rewrite CI-friendly POMs on every build or only when there are changes.
+
+**Property**: `autoRewriteCiFriendlyPoms`
+
+**Default Value**: `true`
+
+**Example**: To skip rewriting when the flattened POM is already up to date:
+
+```xml
+<configuration>
+  <autoRewriteCiFriendlyPoms>false</autoRewriteCiFriendlyPoms>
+</configuration>
+```
 ## Plugin Goals
  - `ci-friendly-flatten:flatten` Replaces `revision`, `sha1`, `changelist`, writes the resolved pom file to `.ci-friendly-pom.xml` and sets it as the new reactor (Default maven phase binding: process-resources).
  - `ci-friendly-flatten:clean` Removes any files created by ci-friendly-flatten:flatten (Default maven phase binding: clean).
